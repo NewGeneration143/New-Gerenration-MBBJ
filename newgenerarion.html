@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ApuntesNaturales - Comparte y aprende con apuntes educativos</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --primary-light: #81C784;
+            --primary-dark: #2E7D32;
+            --secondary-color: #8BC34A;
+            --accent-color: #CDDC39;
+            --background-light: #F1F8E9;
+            --text-dark: #263238;
+            --text-light: #FFFFFF;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--background-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background-color: var(--text-light);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .logo span {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .menu {
+            display: flex;
+            list-style: none;
+        }
+        
+        .menu li {
+            margin-left: 1.5rem;
+        }
+        
+        .menu a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .menu a:hover {
+            color: var(--primary-color);
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, var(--primary-light), var(--secondary-color));
+            padding: 4rem 0;
+            text-align: center;
+            color: var(--text-light);
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 50px;
+            border: none;
+            font-size: 1rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .search-btn {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            border: none;
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .search-btn:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .section {
+            padding: 4rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            color: var(--primary-dark);
+        }
+        
+        .section-description {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+        }
+        
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .category-card {
+            background-color: var(--text-light);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .category-img {
+            height: 150px;
+            width: 100%;
+            object-fit: cover;
+        }
+        
+        .category-content {
+            padding: 1.5rem;
+        }
+        
+        .category-content h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary-dark);
+        }
+        
+        .featured-notes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .note-card {
+            background-color: var(--text-light);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+        
+        .note-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .note-img {
+            height: 180px;
+            width: 100%;
+            object-fit: cover;
+            background-color: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            font-size: 3rem;
+        }
+        
+        .note-content {
+            padding: 1.5rem;
+        }
+        
+        .note-content h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary-dark);
+        }
+        
+        .note-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .rating {
+            color: #FFD700;
+        }
+        
+        .how-it-works {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+        
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .step-icon {
+            background-color: var(--primary-light);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+            font-size: 2rem;
+        }
+        
+        .step h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary-dark);
+        }
+        
+        .cta {
+            text-align: center;
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 4rem 0;
+        }
+        
+        .cta h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .cta p {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        
+        .btn-large {
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+            background-color: var(--text-light);
+            color: var(--primary-color);
+        }
+        
+        .btn-large:hover {
+            background-color: var(--background-light);
+        }
+        
+        footer {
+            background-color: var(--primary-dark);
+            color: var(--text-light);
+            padding: 3rem 0 1rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-column h3 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-column a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-column a:hover {
+            color: var(--accent-color);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .copyright {
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive menu */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-dark);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            .navbar {
+                flex-wrap: wrap;
+            }
+            
+            .menu {
+                flex-direction: column;
+                width: 100%;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+            }
+            
+            .menu.active {
+                max-height: 300px;
+            }
+            
+            .menu li {
+                margin: 1rem 0;
+            }
+            
+            .auth-buttons {
+                width: 100%;
+                justify-content: center;
+                margin-top: 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="/api/placeholder/40/40" alt="ApuntesNaturales Logo">
+                    <span>ApuntesNaturales</span>
+                </div>
+                
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <ul class="menu" id="menu">
+                    <li><a href="#">Inicio</a></li>
+                    <li><a href="#">Categorías</a></li>
+                    <li><a href="#">Destacados</a></li>
+                    <li><a href="#">Cómo funciona</a></li>
+                    <li><a href="#">Contacto</a></li>
+                </ul>
+                
+                <div class="auth-buttons">
+                    <button class="btn btn-outline">Iniciar sesión</button>
+                    <button class="btn btn-primary">Registrarse</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="container">
+            <h1>Comparte y aprende con apuntes educativos</h1>
+            <p>Plataforma para compartir y descubrir apuntes organizados por niveles educativos, asignaturas y temáticas.</p>
+            
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Busca apuntes por tema, asignatura o nivel...">
+                <button class="search-btn">Buscar</button>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Categorías</h2>
+            <p class="section-description">Explora nuestras categorías organizadas por niveles educativos y encuentra los apuntes que necesitas.</p>
+            
+            <div class="categories">
+                <div class="category-card">
+                    <img src="/api/placeholder/300/150" alt="Educación Infantil" class="category-img">
+                    <div class="category-content">
+                        <h3>Educación Infantil</h3>
+                        <p>Actividades, fichas y recursos para los más pequeños.</p>
+                    </div>
+                </div>
+                
+                <div class="category-card">
+                    <img src="/api/placeholder/300/150" alt="Educación Primaria" class="category-img">
+                    <div class="category-content">
+                        <h3>Educación Primaria</h3>
+                        <p>Apuntes para todas las asignaturas de 1º a 6º de primaria.</p>
+                    </div>
+                </div>
+                
+                <div class="category-card">
+                    <img src="/api/placeholder/300/150" alt="ESO" class="category-img">
+                    <div class="category-content">
+                        <h3>ESO</h3>
+                        <p>Material de estudio para los cursos de Educación Secundaria Obligatoria.</p>
+                    </div>
+                </div>
+                
+                <div class="category-card">
+                    <img src="/api/placeholder/300/150" alt="Bachillerato" class="category-img">
+                    <div class="category-content">
+                        <h3>Bachillerato</h3>
+                        <p>Recursos para preparar exámenes y selectividad.</p>
+                    </div>
+                </div>
+                
+                <div class="category-card">
+                    <img src="/api/placeholder/300/150" alt="Formación Profesional" class="category-img">
+                    <div class="category-content">
+                        <h3>Formación Profesional</h3>
+                        <p>Apuntes para grados medios y superiores de FP.</p>
+                    </div>
+                </div>
+                
+                <div class="category-card">
+                    <img src="/api/placeholder/300/150" alt="Universidad" class="category-img">
+                    <div class="category-content">
+                        <h3>Universidad</h3>
+                        <p>Material de estudio para grados, postgrados y másters.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section" style="background-color: #E8F5E9;">
+        <div class="container">
+            <h2 class="section-title">Apuntes destacados</h2>
+            <p class="section-description">Los apuntes mejor valorados por nuestra comunidad de estudiantes.</p>
+            
+            <div class="featured-notes">
+                <div class="note-card">
+                    <div class="note-img">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="note-content">
+                        <h3>Formulario completo de Física</h3>
+                        <p>Todas las fórmulas que necesitas para 2º de Bachillerato.</p>
+                        <div class="note-meta">
+                            <span>Bachillerato</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="note-card">
+                    <div class="note-img">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="note-content">
+                        <h3>Resumen Historia de España</h3>
+                        <p>Resumen completo para preparar la selectividad.</p>
+                        <div class="note-meta">
+                            <span>Bachillerato</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="note-card">
+                    <div class="note-img">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="note-content">
+                        <h3>Guía de ortografía</h3>
+                        <p>Reglas básicas y ejercicios prácticos.</p>
+                        <div class="note-meta">
+                            <span>ESO</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="note-card">
+                    <div class="note-img">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="note-content">
+                        <h3>Cálculo diferencial</h3>
+                        <p>Apuntes completos con ejercicios resueltos.</p>
+                        <div class="note-meta">
+                            <span>Universidad</span>
+                            <span class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Cómo funciona</h2>
+            <p class="section-description">Aprende a utilizar nuestra plataforma en cuatro sencillos pasos.</p>
+            
+            <div class="how-it-works">
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <h3>Regístrate</h3>
+                    <p>Crea tu cuenta gratuita en unos segundos.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-upload"></i>
+                    </div>
+                    <h3>Sube apuntes</h3>
+                    <p>Comparte tus apuntes en formato PDF.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Busca</h3>
+                    <p>Encuentra apuntes de calidad para tus estudios.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-download"></i>
+                    </div>
+                    <h3>Descarga</h3>
+                    <p>Accede a los apuntes de manera gratuita.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="cta">
+        <div class="container">
+            <h2>¿Listo para compartir tus apuntes?</h2>
+            <p>Únete a nuestra comunidad de estudiantes y ayuda a otros mientras amplías tus conocimientos.</p>
+            <button class="btn btn-large">Registrarse ahora</button>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>ApuntesNaturales</h3>
+                    <p>Plataforma para compartir y descubrir apuntes educativos de manera sencilla y organizada.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Enlaces rápidos</h3>
+                    <ul>
+                        <li><a href="#">Inicio</a></li>
+                        <li><a href="#">Categorías</a></li>
+                        <li><a href="#">Destacados</a></li>
+                        <li><a href="#">Cómo funciona</a></li>
+                        <li><a href="#">Contacto</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Niveles educativos</h3>
+                    <ul>
+                        <li><a href="#">Educación Infantil</a></li>
+                        <li><a href="#">Educación Primaria</a></li>
+                        <li><a href="#">ESO</a></li>
+                        <li><a href="#">Bachillerato</a></li>
+                        <li><a href="#">Formación Profesional</a></li>
+                        <li><a href="#">Universidad</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="#">Términos y condiciones</a></li>
+                        <li><a href="#">Política de privacidad</a></li>
+                        <li><a href="#">Política de cookies</a></li>
+                        <li><a href="#">Aviso legal</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 ApuntesNaturales. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Toggle menu for mobile
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.getElementById('menu').classList.toggle('active');
+        });
+        
+        // Basic search functionality
+        document.querySelector('.search-btn').addEventListener('click', function() {
+            const searchTerm = document.querySelector('.search-input').value;
+            if (searchTerm) {
+                alert('Búsqueda de: ' + searchTerm + '\nEsta funcionalidad requiere implementación de backend.');
+            }
+        });
+        
+        // Register button action
+        document.querySelector('.btn-large').addEventListener('click', function() {
+            alert('Esta funcionalidad requiere implementación de backend para el registro de usuarios.');
+        });
+        
+        // Auth buttons
+        document.querySelectorAll('.auth-buttons .btn').forEach(button => {
+            button.addEventListener('click', function() {
+                alert('Esta funcionalidad requiere implementación de backend para la autenticación de usuarios.');
+            });
+        });
+    </script>
+</body>
+</html>
